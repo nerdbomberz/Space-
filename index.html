@@ -6,6 +6,15 @@
   <script src="pixi/pixi.min.js"></script>
   <script src="Cooper.js"></script>
   <script src="George.js"></script>
+  <script src="James.js"></script>
+  <script src="Sam.js"></script>
+  <script src="Sally.js"></script>
+  <script src="Sara.js"></script>
+  <script src="Monster.js"></script>
+  <script src="BlueRoom.js"></script>
+  <script src="RedRoom.js"></script>
+  <script src="GreenRoom.js"></script>
+  <script src="YellowRoom.js"></script>
   <script>
 
     //Aliases
@@ -37,6 +46,11 @@
       .add("images/treasureHunter.json")
       .add("images/Cooper.json")
       .add("images/George.json")
+      .add("images/James.json")
+      .add("images/Sam & Sally.json")
+      .add("images/Sara.json")
+      .add("images/Monster.json")
+      .add("images/Floors.json")
       .load(setup);
 
     //Define variables that might be used in more than one function
@@ -55,13 +69,12 @@
 
 
       //Dungeon
-      dungeon = new Sprite(id["dungeon.png"]);
-      gameScene.addChild(dungeon);
-
-      //Door
-      door = new Sprite(id["door.png"]);
-      door.position.set(32, 0);
-      gameScene.addChild(door);
+      //dungeon = new Sprite(id["dungeon.png"]);
+      //gameScene.addChild(dungeon);
+      blue = new BlueRoom(resources,gameScene);
+      red = new RedRoom(resources,gameScene);
+      green = new GreenRoom(resources,gameScene);
+      yellow = new YellowRoom(resources,gameScene);
 
       
       //explorer = new Sprite(Cooper["sprite79"]);
@@ -70,38 +83,18 @@
       //explorer.vx = 0;
       //explorer.vy = 0;
       //gameScene.addChild(explorer);
-      cooper = new Cooper(resources, gameScene);
-      explorer = cooper.sprite;
+      cooper = new Cooper(resources, gameScene, 0, 0);
+      //explorer = cooper.sprite;
       george = new George(resources, gameScene);
-
-      //Treasure
-      treasure = new Sprite(id["treasure.png"]);
-      treasure.x = gameScene.width - treasure.width - 48;
-      treasure.y = gameScene.height / 2 - treasure.height / 2;
-      gameScene.addChild(treasure);
+      james = new James(resources, gameScene);
+      //Scale sam & sally?
+      sam = new Sam(resources, gameScene);
+      sally = new Sally(resources, gameScene);
+      sara = new Sara(resources, gameScene);
+      monster = new Monster(resources, gameScene);
 
       
-      //Create the health bar
-      healthBar = new Container();
-      healthBar.position.set(app.stage.width - 170, 4)
-      gameScene.addChild(healthBar);
-
-      //Create the black background rectangle
-      let innerBar = new Graphics();
-      innerBar.beginFill(0x000000);
-      innerBar.drawRect(0, 0, 128, 8);
-      innerBar.endFill();
-      healthBar.addChild(innerBar)
-
-      //Create the front red rectangle
-      let outerBar = new Graphics();
-      outerBar.beginFill(0xFF3300);
-      outerBar.drawRect(0, 0, 128, 8);
-      outerBar.endFill();
-      healthBar.addChild(outerBar);
-
-      healthBar.outer = outerBar;
-
+      
       //Create the `gameOver` scene
       gameOverScene = new Container();
       app.stage.addChild(gameOverScene);
@@ -198,7 +191,7 @@
       explorer.y += explorer.vy;
 
       //Contain the explorer inside the area of the dungeon
-      contain(explorer, { x: 28, y: 10, width: 488, height: 480 });
+      contain(explorer, { x: -3, y: -5, width: 515, height: 500 });
       //contain(explorer, stage);
 
       //Set `explorerHit` to `false` before checking for a collision
@@ -222,26 +215,7 @@
       }
 
       //Check for a collision between the explorer and the treasure
-      if (hitTestRectangle(explorer, treasure)) {
-
-        //If the treasure is touching the explorer, center it over the explorer
-        treasure.x = explorer.x + 8
-        treasure.y = explorer.y + 8
-      }
-
-      //Does the explorer have enough health? If the width of the `innerBar`
-      //is less than zero, end the game and display "You lost!"
-      if (healthBar.outer.width < 0) {
-        state = end;
-        message.text = "You lost";
-      }
-
-      //If the explorer has brought the treasure to the exit,
-      //end the game and display "You Won!"
-      if (hitTestRectangle(treasure, door)) {
-        state = end;
-        message.text = "You won!";
-      }
+      
     }
 
     function end() {
