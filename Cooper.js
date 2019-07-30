@@ -1,21 +1,19 @@
 class Cooper {
-    x = 68
-    y = 0
-    animation
-
-    fames = {
-        stand: [],
-        walk:{
-            backward: [],
-            left: [],
-            forward:[],
-            right:[],
-        },
-    }
-
-    constructor(resources, gameScene, x , y){
-        this.x = x;
-        this.y = y;
+    constructor(resources, gameScene, x, y) {
+        this.x = 68;
+        this.y = gameScene.height / 2;
+        this.vx = 0;
+        this.vy = 0;
+        this.animation = undefined
+        this.frames = {
+            stand: [],
+            walk: {
+                backward: [],
+                left: [],
+                forward: [],
+                right: [],
+            },
+        }
 
         const textures = resources[`images/Cooper.json`].textures;
 
@@ -35,13 +33,15 @@ class Cooper {
         this.walk(gameScene, "forward");
     }
 
-    animate(gameScene,frames, loop=true){
+    animate(gameScene, frames, loop = true) {
         if (this.animation) this.animation.destroy()
-        this.animation = new PIXI.AnimatedSprite(frames);
+        this.animation = new PIXI.extras.AnimatedSprite(frames);
 
         this.animation.x = this.x;
-        this.animation.y = this.y;
-        this.animation.anchor.set(0,5)
+        this.animation.y = this.y
+        this.animation.vx = this.vx;
+        this.animation.vy = this.vy;
+        this.animation.anchor.set(0, 5)
         this.animation.animationSpeed = 0.12;
         this.animation.loop = loop ? true : false;
         this.animation.play()

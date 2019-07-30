@@ -54,7 +54,7 @@
       .load(setup);
 
     //Define variables that might be used in more than one function
-    let state, explorer, treasure, blobs, chimes, exit, player, dungeon,
+    let state, cooper, treasure, blobs, chimes, exit, player, dungeon,
       door, healthBar, message, gameScene, gameOverScene, enemies, id;
 
     function setup() {
@@ -83,8 +83,7 @@
       //explorer.vx = 0;
       //explorer.vy = 0;
       //gameScene.addChild(explorer);
-      cooper = new Cooper(resources, gameScene, 0, 0);
-      //explorer = cooper.sprite;
+      cooper = new Cooper(resources, gameScene, 68, gameScene.height / 2);
       george = new George(resources, gameScene);
       james = new James(resources, gameScene);
       //Scale sam & sally?
@@ -122,19 +121,19 @@
       //Left arrow key `press` method
       left.press = function () {
 
-        //Change the explorer's velocity when the key is pressed
-        explorer.vx = -5;
-        explorer.vy = 0;
+        //Change the Cooper's velocity when the key is pressed
+        cooper.vx = -5;
+        cooper.vy = 0;
       };
 
       //Left arrow key `release` method
       left.release = function () {
 
         //If the left arrow has been released, and the right arrow isn't down,
-        //and the explorer isn't moving vertically:
-        //Stop the explorer
-        if (!right.isDown && explorer.vy === 0) {
-          explorer.vx = 0;
+        //and the Cooper isn't moving vertically:
+        //Stop the Cooper
+        if (!right.isDown && cooper.animation.vy === 0) {
+          cooper.animation.vx = 0;
         }
       };
 
@@ -187,11 +186,11 @@
     function play(delta) {
 
       //use the explorer's velocity to make it move
-      explorer.x += explorer.vx;
-      explorer.y += explorer.vy;
+      cooper.x += cooper.animation.vx;
+      cooper.y += cooper.animation.vy;
 
       //Contain the explorer inside the area of the dungeon
-      contain(explorer, { x: -3, y: -5, width: 515, height: 500 });
+      contain(cooper, { x: -3, y: -5, width: 515, height: 500 });
       //contain(explorer, stage);
 
       //Set `explorerHit` to `false` before checking for a collision
@@ -211,7 +210,7 @@
       } else {
 
         //Make the explorer fully opaque (non-transparent) if it hasn't been hit
-        explorer.alpha = 1;
+        cooper.alpha = 1;
       }
 
       //Check for a collision between the explorer and the treasure
