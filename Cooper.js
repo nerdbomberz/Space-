@@ -33,15 +33,19 @@ class Cooper {
         this.walk(gameScene, "forward");
     }
 
+    transform() {
+        this.x += this.vx
+        this.y += this.vy
+        this.animation.x = this.x
+        this.animation.y = this.y
+    }
+
     animate(gameScene, frames, loop = true) {
         if (this.animation) this.animation.destroy()
         this.animation = new PIXI.extras.AnimatedSprite(frames);
 
         this.animation.x = this.x;
         this.animation.y = this.y
-        this.animation.vx = this.vx;
-        this.animation.vy = this.vy;
-        this.animation.anchor.set(0, 5)
         this.animation.animationSpeed = 0.12;
         this.animation.loop = loop ? true : false;
         this.animation.play()

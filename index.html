@@ -124,6 +124,7 @@
         //Change the Cooper's velocity when the key is pressed
         cooper.vx = -5;
         cooper.vy = 0;
+        cooper.walk(gameScene, "left")
       };
 
       //Left arrow key `release` method
@@ -132,41 +133,48 @@
         //If the left arrow has been released, and the right arrow isn't down,
         //and the Cooper isn't moving vertically:
         //Stop the Cooper
-        if (!right.isDown && cooper.animation.vy === 0) {
-          cooper.animation.vx = 0;
+        if (!right.isDown && cooper.vy === 0) {
+          cooper.vx = 0;
+          cooper.walk(gameScene, "forward")
         }
       };
 
       //Up
       up.press = function () {
-        explorer.vy = -5;
-        explorer.vx = 0;
+        cooper.vy = -5;
+        cooper.vx = 0;
+        cooper.walk(gameScene, "backward")
       };
       up.release = function () {
-        if (!down.isDown && explorer.vx === 0) {
-          explorer.vy = 0;
+        if (!down.isDown && cooper.vx === 0) {
+          cooper.vy = 0;
+          cooper.walk(gameScene, "forward")
         }
       };
 
       //Right
       right.press = function () {
-        explorer.vx = 5;
-        explorer.vy = 0;
+        cooper.vx = 5;
+        cooper.vy = 0;
+        cooper.walk(gameScene, "right")
       };
       right.release = function () {
-        if (!left.isDown && explorer.vy === 0) {
-          explorer.vx = 0;
+        if (!left.isDown && cooper.vy === 0) {
+          cooper.vx = 0;
+          cooper.walk(gameScene, "forward")
         }
       };
 
       //Down
       down.press = function () {
-        explorer.vy = 5;
-        explorer.vx = 0;
+        cooper.vy = 5;
+        cooper.vx = 0;
+        cooper.walk(gameScene, "forward")
       };
       down.release = function () {
-        if (!up.isDown && explorer.vx === 0) {
-          explorer.vy = 0;
+        if (!up.isDown && cooper.vx === 0) {
+          cooper.vy = 0;
+          cooper.walk(gameScene, "forward")
         }
       };
 
@@ -186,35 +194,9 @@
     function play(delta) {
 
       //use the explorer's velocity to make it move
-      cooper.x += cooper.animation.vx;
-      cooper.y += cooper.animation.vy;
-
+      cooper.transform()
       //Contain the explorer inside the area of the dungeon
-      contain(cooper, { x: -3, y: -5, width: 515, height: 500 });
-      //contain(explorer, stage);
-
-      //Set `explorerHit` to `false` before checking for a collision
-      let explorerHit = false;
-
-      //Loop through all the sprites in the `enemies` array
-      
-
-      //If the explorer is hit...
-      if (explorerHit) {
-
-        //Make the  explorer semi-transparent
-        explorer.alpha = 0.5;
-
-        //Reduce the width of the health bar's inner rectangle by 1 pixle
-        healthBar.outer.width -= 1;
-      } else {
-
-        //Make the explorer fully opaque (non-transparent) if it hasn't been hit
-        cooper.alpha = 1;
-      }
-
-      //Check for a collision between the explorer and the treasure
-      
+      contain(cooper, { x: -3, y: -5, width: 515, height: 500 })
     }
 
     function end() {
