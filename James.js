@@ -1,15 +1,59 @@
 class James {
-    constructor(resources, gameScene){
+    constructor(resources, gameScene, x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = 0;
+        this.vy = 0;
+        this.animation = undefined
+        this.frames = {
+            stand: [],
+            walk: {
+                backward: [],
+                left: [],
+                forward: [],
+                right: [],
+            },
+        }
 
-        this.textures = resources[`images/James.json`].textures;
+        const textures = resources[`images/James.json`].textures;
 
-        this.sprite = new Sprite(this.textures[`sprite79`]);
+        this.frames.stand.push(textures[`sprite79`]);
 
-        this.sprite.x = 68 + 64 + 64;
-        this.sprite.y = gameScene.height / 2 - this.sprite.height / 2;
-        this.sprite.vx = 0;
-        this.sprite.vy = 0;
-        gameScene.addChild(this.sprite);
+        for (let i = 0; i < 9; i++) {
+            //walking backwards is 61 - 69
+            this.frames.walk.backward.push(textures[`sprite${i + 61}`]);
+            // walking left is 70 - 78
+            this.frames.walk.left.push(textures[`sprite${i + 70}`]);
+            //walking forward is 79 - 87
+            this.frames.walk.forward.push(textures[`sprite${i + 79}`]);
+            //walking right is 88 - 96
+            this.frames.walk.right.push(textures[`sprite${i + 88}`]);
+        }
+
+        this.walk(gameScene, "forward");
     }
 
+    transform() {
+        this.x += this.vx
+        this.y += this.vy
+        this.animation.x = this.x
+        this.animation.y = this.y
+    }
+
+    animate(gameScene, frames, loop = true) {
+        if (this.animation) this.animation.destroy()
+        this.animation = new PIXI.extras.AnimatedSprite(frames);
+
+        this.animation.x = this.x;
+        this.animation.y = this.y
+        this.animation.animationSpeed = 0.12;
+        this.animation.loop = loop ? true : false;
+        this.animation.play()
+
+        gameScene.addChild(this.animation);
+    }
+
+    walk(gameScene, dir) {
+        this.animate(gameScene, this.frames.walk[dir]);
+    }
 }

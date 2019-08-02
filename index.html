@@ -84,13 +84,13 @@
       //explorer.vy = 0;
       //gameScene.addChild(explorer);
       cooper = new Cooper(resources, gameScene, 68, gameScene.height / 2);
-      george = new George(resources, gameScene);
-      james = new James(resources, gameScene);
+      george = new George(resources, gameScene, 68 + 64, gameScene.height / 2);
+      james = new James(resources, gameScene, 68 + 64 * 2, gameScene.height / 2);
       //Scale sam & sally?
-      sam = new Sam(resources, gameScene);
-      sally = new Sally(resources, gameScene);
-      sara = new Sara(resources, gameScene);
-      monster = new Monster(resources, gameScene);
+      sam = new Sam(resources, gameScene, 68 + 64 * 3, gameScene.height/2);
+      sally = new Sally(resources, gameScene, 68 + 64 * 4, gameScene.height/2);
+      sara = new Sara(resources, gameScene, 68 + 64 * 5, gameScene.height/2);
+      monster = new Monster(resources, gameScene, 68 + 64 * 6, gameScene.height/2);
 
       
       
@@ -223,14 +223,14 @@
       }
 
       //Right
-      if (sprite.x + sprite.width > container.width) {
-        sprite.x = container.width - sprite.width;
+      if (sprite.x + sprite.animation.width > container.width) {
+        sprite.x = container.width - sprite.animation.width;
         collision = "right";
       }
 
       //Bottom
-      if (sprite.y + sprite.height > container.height) {
-        sprite.y = container.height - sprite.height;
+      if (sprite.y + sprite.animation.height > container.height) {
+        sprite.y = container.height - sprite.animation.height;
         collision = "bottom";
       }
 
